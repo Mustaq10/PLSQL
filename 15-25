@@ -1,0 +1,248 @@
+15. Write a PL/ SQL to find the date birth of a given 
+programmer. 
+PL/SQL:- 
+declare
+ pn programmer.pname%type:='Ramesh';
+ db programmer.dob%type;
+begin
+ select dob into db from programmer where pname=pn;
+ dbms_output.put_line('DOB of '||pn||' is '||db);
+exception
+ when no_data_found then
+ dbms_output.put_line('No data Found');
+end;
+Output: - 
+
+
+
+16. Write a PL/ SQL to display the names and date of birth 
+of programmers 
+ 
+PL/SQL:- 
+declare 
+ cursor s is select * from programmer;
+ t s%rowtype;
+begin 
+ open s;
+ loop
+ fetch s into t;
+ exit when s%notfound;
+ dbms_output.put_line(t.pname||' '||t.dob);
+ end loop;
+ close s;
+end;
+Output:- 
+
+
+
+17. Write a PL/ SQL to find the titles of projects done by a 
+given programmer. 
+ 
+PL/SQL:- 
+declare
+ pn software.pname%type:='Remitha';
+ cursor s is select * from software where pname=pn;
+ t s%rowtype;
+begin
+ open s;
+ loop
+ fetch s into t;
+ exit when s%notfound;
+ dbms_output.put_line(t.title);
+ end loop;
+ close s;
+end;
+Output:- 
+
+
+
+18. Write a PL/ SQL to find the name of programmer for a 
+given project. 
+ 
+PL/SQL:- 
+declare
+ t software.title%type:='Bombs Away';
+ pn software.pname%type;
+begin
+ select pname into pn from software where title=t;
+ dbms_output.put_line('Programmer Name '||pn);
+exception
+ when no_data_found then
+ dbms_output.put_line('No Data');
+end;
+Output:- 
+
+
+
+19. Write a PL/ SQL to calculate area and perimeter of radii 
+present in the table radius and insert the radius, area and 
+perimeter into another table circle. 
+ 
+PL/SQL:- 
+declare
+ cursor s is select * from radius;
+ t s%rowtype;
+begin
+ open s;
+ loop
+ fetch s into t;
+ exit when s%notfound;
+ insert into circle 
+values(t.radius,3.14*t.radius*t.radius,2*3.14*t.radius);
+ end loop;
+end;
+select * from circle;
+ 
+Output:- 
+
+
+
+20. Write a procedure to calculate the product two numbers. 
+ 
+PL/SQL:- 
+ 
+Creating procedurecreate or replace procedure product(a in number, b in 
+number) as
+c number;
+begin
+ c:=a*b;
+ dbms_output.put_line('Product of '||a||' and '||b||' is '||c);
+end;
+Executing proceduredeclare
+ x number:=25;
+ y number:=2;
+begin
+ product(x,y);
+end;
+Output:- 
+
+
+
+21. Write a procedure to get the date of birth for a given 
+programmer 
+ 
+PL/SQL:- 
+ 
+Creating procedurecreate or replace procedure get_dob(p in 
+programmer.pname%type) as
+db programmer.dob%type;
+begin
+ select dob into db from programmer where pname=p;
+ dbms_output.put_line('Pname '||p||' DOB '||db);
+exception
+when no_data_found then
+ dbms_output.put_line('NO DATA');
+end;
+Executing proceduredeclare
+ x programmer.pname%type:='Patrick';
+begin
+ get_dob(x);
+end;
+Output:- 
+
+
+
+22. Write a function to return the sum of two numbers. 
+ 
+PL/SQL:- 
+ 
+Creating functioncreate or replace function add_func(a in number, b in 
+number) return number as
+c number;
+begin
+ c:=a+b;
+ return c;
+end;
+Calling functiondeclare
+ x number:=10;
+ y number:=20;
+ res number;
+begin
+ res:=add_func(x,y);
+ dbms_output.put_line('Addition of '||x||' and '||y||' is '||res);
+end;
+Output:- 
+
+
+
+23. Write a function to return the date of birth for a given 
+programmer. 
+ 
+PL/SQL:- 
+ 
+Creating functioncreate or replace function get_dob_func(p in 
+programmer.pname%type) return date as
+d programmer.dob%type;
+begin
+ select dob into d from programmer where pname=p;
+ return d;
+end;
+Calling fucntiondeclare
+ x programmer.pname%type:='Nelson';
+ res programmer.dob%type;
+begin
+ res:=get_dob_func(x);
+ dbms_output.put_line('DOB of '||x||' is '||res);
+end;
+Output:- 
+
+
+
+24. Write a procedure to display the names of programmer 
+studied in a given institute. 
+ 
+PL/SQL:- 
+ 
+Creating Procedurecreate or replace procedure getPName(sp 
+studies.splace%type) as
+cursor s is select * from studies where splace=sp;
+t s%rowtype;
+begin
+ open s;
+ loop
+ fetch s into t;
+ exit when s%notfound;
+ dbms_output.put_line(t.pname);
+ end loop;
+ close s;
+end;
+Calling functiondeclare
+ x studies.splace%type:='Sabhari';
+begin
+ getPName(x);
+end;
+Output:- 
+
+
+
+25. Write a function to calculate the total development cost 
+for a given programmer using cursors. 
+ 
+PL/SQL:- 
+ 
+Creating function- 
+create or replace function total_dcost_func(p 
+programmer.pname%type) return number as
+cursor s is select * from software where pname=p;
+t s%rowtype;
+total number;
+begin
+ total:=0;
+ open s;
+ loop
+ fetch s into t;
+ exit when s%notfound;
+ total:=total+t.dcost;
+ end loop;
+ close s;
+ return total;
+end;
+Calling functiondeclare
+ pn programmer.pname%type:='Revathi';
+ res number;
+begin
+ res:=total_dcost_func(pn);
+ dbms_output.put_line('Total development cost is '||res);
+end;
+Output- 
+ 
