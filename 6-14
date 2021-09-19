@@ -1,0 +1,202 @@
+PLSQL 6 TO 14 PROGRAMS
+line no:-
+        add         -15
+        even or odd -25
+        natural     -52
+        quad        -177
+        prime       -112
+        prime to n  -131
+        math        -65
+        num pali    -91        
+        str pali    -158
+    
+        
+
+/*Add*/
+declare
+a number :=&a;
+b number :=&b;
+c number;
+begin
+c :=a+b;
+dbms_output.put_line('sum of' ||a|| 'and' ||b|| 'is' ||c);
+end;
+
+/*even*/
+declare
+ a number :=4;
+begin
+if(mod(a,2)=0) then
+dbms_output.put_line(a || ' is even');
+else
+dbms_output.put_line(a || ' is odd');
+end if;
+end;
+
+/*gcd*/
+DECLARE 
+    num1 INTEGER;  
+    num2 INTEGER;  
+    t    INTEGER;  
+BEGIN 
+    num1 := 8;  
+    num2 := 48;  
+    WHILE MOD(num2, num1) != 0 LOOP  
+        t := MOD(num2, num1);   
+        num2 := num1;  
+        num1 := t;  
+    END LOOP;  
+    dbms_output.Put_line('GCD of ' ||num1  ||' and ' ||num2  ||' is ' ||num1);  
+END;
+
+/*natural*/
+declare
+a number :=10;
+i number :=1;
+begin
+if(a>0) then
+for i in 1..a
+loop
+dbms_output.put_line(i);
+end loop;
+end if;
+end;
+
+/*math*/
+declare
+n number :=10;
+i number :=1;
+begin
+for i in 1..10
+loop
+dbms_output.put_line(n ||'*'||i||'='||n*i);
+end loop;
+end;
+
+/*reverse*/
+declare
+str1 varchar2(50):='&str';
+str2 varchar2(50);
+len number;
+i number;
+begin
+len:=length(str1);
+for i in reverse 1..len
+loop
+str2:=str2 || substr(str1,i,1);
+end loop;
+dbms_output.put_line('Reverse of String is:'||str2);
+end;
+
+/*Palindrome*/
+declare
+n number :=424;
+rem number :=0;
+tot number :=0;
+k number :=0;
+begin
+k :=n;
+while(n>0)
+loop
+rem :=mod(n,10);
+sum :=sum*10+rem;
+n :=trunc(n/10);
+end loop;
+if(sum=k) then
+dbms_output.put_line(k || 'is palindrome');
+else
+dbms_output.put_line(k || 'is not palindrome');
+end if;
+end;
+
+/*Prime or Not*/
+declare
+n number :=14;
+i number :=1;
+cnt number :=0;
+begin
+for i in 1..n
+loop
+if(mod(n,i)=0) then
+cnt :=cnt+1;
+end if;
+end loop;
+if(cnt=2) then
+dbms_output.put_line(n ||'is prime');
+else
+dbms_output.put_line(n ||'is not prime');
+end if;
+end;
+
+/*Prime to n*/
+declare
+n number :=14;
+i number :=1;
+j number :=1;
+cnt number :=0;
+begin
+for j in 1..n
+loop
+cnt:=0;
+for i in 1..n
+loop
+if(mod(j,i)=0) then
+cnt:=cnt+1;
+end if;
+end loop;
+if(cnt=2) then
+dbms_output.put_line(j ||' is prime');
+end if;
+end loop;
+end;
+
+
+
+
+
+
+/*string rev,pail*/
+declare
+g varchar2(20);
+r varchar2(20);
+i number(4);
+begin
+g:='ogole';
+for i in reverse 1..length(g)
+loop
+r:=r||substr(g,i,1);
+end loop;
+dbms_output.put_line('reverse string is' ||r);
+if r=g then
+dbms_output.put_line('string is palindrome');
+else
+dbms_output.put_line('string is not palindrome');
+end if;
+end;
+
+/*Quadratic roots*/
+declare
+a number :=1;
+b number :=-2;
+c number :=-15;
+d number :=0;
+r1 number :=0;
+r2 number :=0;
+begin
+d:=b*b-4*a*c;
+if(d>0) then
+r1:=(-b+sqrt(d))/(2*a);
+r2:=(-b-sqrt(d))/(2*a);
+dbms_output.put_line('The roots are ' ||r1|| ' and ' ||r2);
+else if(d=0) then
+r1:=-b/(2*a);
+dbms_output.put_line('The roots are ' ||r1|| ' and ' ||r1);
+else
+r1:=-b/(2*a);
+r2:=sqrt(-d)/(2*a);
+dbms_output.put_line('The roots are ' ||r1|| ' and ' ||' +i '||r2||r1||' -i '||r2);
+end if;
+end if;
+end;
+
+
