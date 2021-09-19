@@ -1,0 +1,156 @@
+26)
+create or replace package mypack1 is
+procedure product_table(a in number);
+function product(a in number,b in number) return number;
+end;
+
+create or replace package body mypack1 as procedure product_table(a in
+number)as
+i number;
+begin
+i:=1;
+while(i<=10)
+loop
+dbms_output.put_line (a||' * '||i||'='||a*i);
+i:=i+1;
+end loop;
+end product_table;
+function product (a in number,b in number)
+return number as c number;
+begin
+c:=a*b;
+return c;
+end product;
+end;
+
+declare
+x number:=6;
+y number:=2;
+z number;
+begin
+mypack1.product_table(x);
+z:=mypack1.product(x,y);
+dbms_output.put_line('Product of '||x||' and '||y||'is: '||z);
+end;
+
+
+27)
+create or replace package pack1 is
+procedure p1(p in programmer.pname%type);
+function f1(t in software.title%type) return software.pname%type; 
+end;
+
+create or replace package body pack1 as
+procedure p1(p in programmer.pname%type) as s programmer.salary%type;
+begin
+select salary into s from programmer where pname=p;
+dbms_output.put_line('salary is' ||s);
+end p1;
+function f1(t in software.title%type)return software.pname%type as x
+software.pname%type;
+begin
+select pname into x from software
+where title=t;
+return(x);
+end f1;
+end;
+
+declare
+a programmer.pname%type:='Anand';
+b software.title%type:= 'Read Me';
+r software.pname%type;
+begin
+pack1.p1(a);
+r:=pack1.f1(b);
+dbms_output.put_line('pname of given project: '||r);
+end;
+
+
+28)
+create or replace package pack2 is
+procedure p2(x in software.DEV_D%type);
+function f2(y in studies.PNAME%type)return studies.SPLACE%type;
+end;
+
+create or replace package body pack2 is
+procedure p2(x in software.DEV_D%type) as
+cursor s is select*from software where DEV_D=x;
+t s%rowtype;
+begin
+open s;
+loop
+fetch s into t;
+exit when s%notfound;
+dbms_output.put_line(t.TITLE);
+end loop;
+close s;
+end p2;
+function f2(y in studies.PNAME%type)return studies.SPLACE%type
+as
+r studies.SPLACE%type;
+begin
+select SPLACE into r from studies where PNAME=r;
+return r;
+end f2;
+end;
+
+declare
+a programmer.pname%type:='Anand';
+b software.title%type:='Read Me';
+r software.pname%type;
+begin
+pack1.p1(a);
+r:=pack1.f1(b);
+dbms_output.put_line('pname of given project:'||r);
+end;
+
+
+30)
+create table student1(rollno number(3) primary key,
+sname varchar2(15),
+marks1 number(3),
+marks2 number(3),
+total number(4));
+
+create or replace trigger auto_cal before insert on student1 for each
+row
+declare
+begin
+:new.total := :new.marks1 + :new.marks2;
+end;
+
+select * from student1;
+
+
+31)
+create table prog as select pname, salary from programmer;
+
+create table update_prog
+(pname varchar2(20),
+old_salary number(7,2),
+new_salary number(7,2),
+dt date,
+time varchar2(10));
+create or replace trigger update_status after update on prog for each
+row
+begin
+insert into update_prog values(:old.pname, :old.salary,
+:new.salary, sysdate, substr(current_timestamp,11,8));
+end;
+
+select * from update_prog;
+
+
+32)
+create table student
+(roll number(3) primary key,
+sname varchar2(15),
+age number(3));
+
+create or replace trigger age before insert on student
+declare
+begin
+update student set age=age+1;
+end;
+
+select * from student
